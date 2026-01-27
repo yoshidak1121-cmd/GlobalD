@@ -1,6 +1,7 @@
 """Main FastAPI application for GlobalD."""
 import re
 from typing import List
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Query, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -8,7 +9,17 @@ from sqlalchemy import or_
 
 from models import Machine, init_db, get_db
 
-app = FastAPI(title="GlobalD API", version="1.0.0")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Lifespan context manager for app startup and shutdown."""
+    # Startup: Initialize database
+    init_db()
+    yield
+    # Shutdown: cleanup if needed (currently none)
+
+
+app = FastAPI(title="GlobalD API", version="1.0.0", lifespan=lifespan)
 
 # Enable CORS
 app.add_middleware(
@@ -18,12 +29,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-async def startup_event():
-    """Initialize database on startup."""
-    init_db()
 
 
 def sanitize_search_query(query: str) -> str:
