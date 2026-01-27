@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Dolphin - Machine Detail</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐬 Global Dolphin - Machine Detail</h1>
+            <a href="/" class="back-link">← Back to Search</a>
+        </header>
+
+        <div id="machineHeader" class="machine-header">
+            <!-- Machine header will be loaded here -->
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('machine')">Machine</button>
+            <button class="tab-button" onclick="switchTab('nc')">NC</button>
+            <button class="tab-button" onclick="switchTab('contract')">Contract</button>
+            <button class="tab-button" onclick="switchTab('sales')">Sales</button>
+            <button class="tab-button" onclick="switchTab('dealer')">Dealer</button>
+            <button class="tab-button" onclick="switchTab('ship')">Ship</button>
+            <button class="tab-button" onclick="switchTab('install')">Install</button>
+            <button class="tab-button" onclick="switchTab('enduser')">End User</button>
+            <button class="tab-button" onclick="switchTab('service')">Service Base</button>
+        </div>
+
+        <div id="tabContent" class="tab-content">
+            <!-- Tab content will be loaded here -->
+        </div>
+    </div>
+
+    <script src="/static/detail.js"></script>
+    <script>
+        // Load machine details on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const pathParts = window.location.pathname.split('/');
+            const machineId = pathParts[pathParts.length - 1];
+            loadMachineDetail(machineId);
+        });
+    </script>
+</body>
+</html>
