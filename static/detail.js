@@ -17,18 +17,41 @@ async function loadMachineDetail(machineId) {
     }
 }
 
+function createInfoItem(label, value) {
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'info-item';
+
+    const labelDiv = document.createElement('div');
+    labelDiv.className = 'info-label';
+    labelDiv.textContent = label;
+
+    const valueDiv = document.createElement('div');
+    valueDiv.className = 'info-value';
+    valueDiv.textContent = value || '-';
+
+    itemDiv.appendChild(labelDiv);
+    itemDiv.appendChild(valueDiv);
+
+    return itemDiv;
+}
+
 function displayMachineHeader() {
     const headerDiv = document.getElementById('machineHeader');
-    
-    let html = `<h2>Machine: ${currentMachine.machine_no}</h2>`;
-    html += '<div class="header-info">';
-    html += `<div class="info-item"><div class="info-label">Model</div><div class="info-value">${currentMachine.model || '-'}</div></div>`;
-    html += `<div class="info-item"><div class="info-label">Serial No</div><div class="info-value">${currentMachine.serial_no || '-'}</div></div>`;
-    html += `<div class="info-item"><div class="info-label">Created</div><div class="info-value">${currentMachine.created_at || '-'}</div></div>`;
-    html += `<div class="info-item"><div class="info-label">Updated</div><div class="info-value">${currentMachine.updated_at || '-'}</div></div>`;
-    html += '</div>';
-    
-    headerDiv.innerHTML = html;
+    headerDiv.innerHTML = '';
+
+    const heading = document.createElement('h2');
+    heading.textContent = `Machine: ${currentMachine.machine_no}`;
+    headerDiv.appendChild(heading);
+
+    const infoContainer = document.createElement('div');
+    infoContainer.className = 'header-info';
+
+    infoContainer.appendChild(createInfoItem('Model', currentMachine.model));
+    infoContainer.appendChild(createInfoItem('Serial No', currentMachine.serial_no));
+    infoContainer.appendChild(createInfoItem('Created', currentMachine.created_at));
+    infoContainer.appendChild(createInfoItem('Updated', currentMachine.updated_at));
+
+    headerDiv.appendChild(infoContainer);
 }
 
 function switchTab(tabName) {
