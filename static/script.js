@@ -23,34 +23,91 @@ async function performSearch() {
 
 function displayResults(machines) {
     const resultsDiv = document.getElementById('results');
-    
-    let html = '<table class="results-table">';
-    html += '<thead><tr>';
-    html += '<th>Machine No</th>';
-    html += '<th>Model</th>';
-    html += '<th>Serial No</th>';
-    html += '<th>NC Maker</th>';
-    html += '<th>Contract No</th>';
-    html += '<th>Dealer</th>';
-    html += '<th>End User</th>';
-    html += '<th>Location</th>';
-    html += '</tr></thead><tbody>';
-    
-    machines.forEach(machine => {
-        html += '<tr>';
-        html += `<td><a href="/detail/${machine.id}" class="machine-link">${machine.machine_no || '-'}</a></td>`;
-        html += `<td>${machine.model || '-'}</td>`;
-        html += `<td>${machine.serial_no || '-'}</td>`;
-        html += `<td>${machine.nc_maker || '-'}</td>`;
-        html += `<td>${machine.contract_no || '-'}</td>`;
-        html += `<td>${machine.dealer_name || '-'}</td>`;
-        html += `<td>${machine.end_user_company || '-'}</td>`;
-        html += `<td>${machine.location || '-'}</td>`;
-        html += '</tr>';
+
+    // Clear previous results
+    resultsDiv.innerHTML = '';
+
+    // Create table structure
+    const table = document.createElement('table');
+    table.className = 'results-table';
+
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    const headers = [
+        'Machine No',
+        'Model',
+        'Serial No',
+        'NC Maker',
+        'Contract No',
+        'Dealer',
+        'End User',
+        'Location'
+    ];
+
+    headers.forEach(text => {
+        const th = document.createElement('th');
+        th.textContent = text;
+        headerRow.appendChild(th);
     });
-    
-    html += '</tbody></table>';
-    resultsDiv.innerHTML = html;
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+    machines.forEach(machine => {
+        const tr = document.createElement('tr');
+
+        // Machine No with link
+        const tdMachineNo = document.createElement('td');
+        const link = document.createElement('a');
+        const idValue = machine.id != null ? String(machine.id) : '';
+        link.href = '/detail/' + encodeURIComponent(idValue);
+        link.className = 'machine-link';
+        link.textContent = machine.machine_no || '-';
+        tdMachineNo.appendChild(link);
+        tr.appendChild(tdMachineNo);
+
+        // Model
+        const tdModel = document.createElement('td');
+        tdModel.textContent = machine.model || '-';
+        tr.appendChild(tdModel);
+
+        // Serial No
+        const tdSerial = document.createElement('td');
+        tdSerial.textContent = machine.serial_no || '-';
+        tr.appendChild(tdSerial);
+
+        // NC Maker
+        const tdNcMaker = document.createElement('td');
+        tdNcMaker.textContent = machine.nc_maker || '-';
+        tr.appendChild(tdNcMaker);
+
+        // Contract No
+        const tdContract = document.createElement('td');
+        tdContract.textContent = machine.contract_no || '-';
+        tr.appendChild(tdContract);
+
+        // Dealer
+        const tdDealer = document.createElement('td');
+        tdDealer.textContent = machine.dealer_name || '-';
+        tr.appendChild(tdDealer);
+
+        // End User
+        const tdEndUser = document.createElement('td');
+        tdEndUser.textContent = machine.end_user_company || '-';
+        tr.appendChild(tdEndUser);
+
+        // Location
+        const tdLocation = document.createElement('td');
+        tdLocation.textContent = machine.location || '-';
+        tr.appendChild(tdLocation);
+
+        tbody.appendChild(tr);
+    });
+
+    table.appendChild(tbody);
+    resultsDiv.appendChild(table);
 }
 
 // Allow search on Enter key
