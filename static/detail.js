@@ -136,7 +136,7 @@ function displaySalesTab() {
     let html = '<div class="detail-grid">';
     html += `<div class="detail-item"><div class="detail-label">Sales Date</div><div class="detail-value">${sales.sales_date || '-'}</div></div>`;
     html += `<div class="detail-item"><div class="detail-label">Sales Person</div><div class="detail-value">${sales.sales_person || '-'}</div></div>`;
-    html += `<div class="detail-item"><div class="detail-label">Sales Amount</div><div class="detail-value">${sales.sales_amount ? '¥' + sales.sales_amount.toLocaleString() : '-'}</div></div>`;
+    html += `<div class="detail-item"><div class="detail-label">Sales Amount</div><div class="detail-value">${sales.sales_amount != null ? '¥' + sales.sales_amount.toLocaleString() : '-'}</div></div>`;
     html += `<div class="detail-item"><div class="detail-label">Memo</div><div class="detail-value">${sales.memo || '-'}</div></div>`;
     html += '</div>';
     contentDiv.innerHTML = html;
