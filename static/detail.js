@@ -35,11 +35,11 @@ function switchTab(tabName) {
     // Update tab buttons
     const buttons = document.querySelectorAll('.tab-button');
     buttons.forEach(button => {
-        button.classList.remove('active');
-        // Check if this button should be active based on onclick attribute
-        const onclickAttr = button.getAttribute('onclick');
-        if (onclickAttr && onclickAttr.includes(`'${tabName}'`)) {
+        const buttonTab = button.getAttribute('data-tab');
+        if (buttonTab === tabName) {
             button.classList.add('active');
+        } else {
+            button.classList.remove('active');
         }
     });
     
