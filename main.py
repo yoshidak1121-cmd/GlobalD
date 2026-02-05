@@ -2,12 +2,10 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, field_validator
-from typing import Optional, List
+from typing import Optional
 import sqlite3
-import json
 import re
 from datetime import datetime
-
 app = FastAPI(title="Global Dolphin")
 
 # Database initialization
