@@ -97,10 +97,14 @@ header h1 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.results-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
 .results-table {
     width: 100%;
     border-collapse: collapse;
-    overflow-x: auto;
 }
 
 .results-table th {
