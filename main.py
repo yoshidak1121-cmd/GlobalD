@@ -14,6 +14,7 @@ DB_PATH = "globald.db"
 def init_db():
     """Initialize database with schema"""
     conn = sqlite3.connect(DB_PATH)
+    conn.execute("PRAGMA foreign_keys = ON")
     cursor = conn.cursor()
     
     # Machine table
