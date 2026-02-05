@@ -7,7 +7,7 @@ A machine-centric management system prototype built with FastAPI, SQLite, and pl
 - **Machine-Centric UI**: All data is organized around machines
 - **Free-Text Search**: Search across Machine, NC, Contract, Sales, Dealer, Ship, Install, End User, and Service Base data
 - **Detailed Machine View**: Fixed machine header with tabs for different data sections
-- **RESTful APIs**: Complete CRUD operations for machine data
+- **RESTful APIs**: Create, read, and update operations for machine data
 - **Data Validation**: 
   - Date format: YYYY/MM/DD
   - Memo fields: max 300 characters
