@@ -337,6 +337,9 @@ class DealerData(BaseModel):
             # Check if it's a full country name (at least 3 chars, no numbers)
             if len(v) < 3 or any(char.isdigit() for char in v):
                 raise ValueError('Country must be a full country name')
+            # Reject likely country codes (e.g., "US", "UK", "USA", "UAE")
+            if v.isupper() and len(v) <= 3:
+                raise ValueError('Country must be a full country name, not a code')
         return v
 
 class ShipData(BaseModel):
