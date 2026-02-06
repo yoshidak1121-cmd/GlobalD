@@ -4,15 +4,27 @@ async function loadMachineDetail(machineId) {
     try {
         const response = await fetch(`/api/machines/${machineId}`);
         if (!response.ok) {
-            document.getElementById('machineHeader').innerHTML = '<div class="no-results">Machine not found</div>';
+            let errorMessage;
+            if (response.status === 404) {
+                errorMessage = 'Machine not found (404).';
+            } else if (response.status >= 500) {
+                errorMessage = 'Server error while loading machine. Please try again later.';
+            } else {
+                errorMessage = `Error loading machine (status ${response.status} ${response.statusText || ''}).`;
+            }
+            document.getElementById('machineHeader').innerHTML = `<div class="no-results">${errorMessage}</div>`;
             return;
         }
-        
+
         currentMachine = await response.json();
         displayMachineHeader();
         switchTab('machine');
     } catch (error) {
-        document.getElementById('machineHeader').innerHTML = '<div class="no-results">Error loading machine</div>';
+        let errorMessage = 'Unexpected error while loading machine.';
+        if (error && (error.name === 'TypeError' || (typeof error.message === 'string' && error.message.toLowerCase().includes('network')))) {
+            errorMessage = 'Network error while loading machine. Please check your connection and try again.';
+        }
+        document.getElementById('machineHeader').innerHTML = `<div class="no-results">${errorMessage}</div>`;
         console.error('Load error:', error);
     }
 }
