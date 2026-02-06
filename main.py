@@ -724,54 +724,88 @@ async def update_machine(machine_id: int, machine_data: MachineCreate):
                 )
         
         if machine_data.install:
-            cursor.execute("SELECT id FROM installs WHERE machine_id = ?", (machine_id,))
-            if cursor.fetchone():
-                cursor.execute(
-                    "UPDATE installs SET install_date = ?, installer = ?, location = ?, memo = ? WHERE machine_id = ?",
-                    (machine_data.install.install_date, machine_data.install.installer,
-                     machine_data.install.location, machine_data.install.memo, machine_id)
-                )
-            else:
-                cursor.execute(
-                    "INSERT INTO installs (machine_id, install_date, installer, location, memo) VALUES (?, ?, ?, ?, ?)",
-                    (machine_id, machine_data.install.install_date, machine_data.install.installer,
-                     machine_data.install.location, machine_data.install.memo)
-                )
-        
+            cursor.execute(
+                """
+                INSERT INTO installs (machine_id, install_date, installer, location, memo)
+                VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(machine_id) DO UPDATE SET
+                    install_date = excluded.install_date,
+                    installer   = excluded.installer,
+                    location    = excluded.location,
+                    memo        = excluded.memo
+                """
+                ,
+                (
+                    machine_id,
+                    machine_data.install.install_date,
+                    machine_data.install.installer,
+                    machine_data.install.location,
+                    machine_data.install.memo,
+                ),
+            )
+
         if machine_data.end_user:
-            cursor.execute("SELECT id FROM end_users WHERE machine_id = ?", (machine_id,))
-            if cursor.fetchone():
-                cursor.execute(
-                    "UPDATE end_users SET company_name = ?, country = ?, contact_person = ?, phone = ?, email = ?, address = ? WHERE machine_id = ?",
-                    (machine_data.end_user.company_name, machine_data.end_user.country,
-                     machine_data.end_user.contact_person, machine_data.end_user.phone,
-                     machine_data.end_user.email, machine_data.end_user.address, machine_id)
+            cursor.execute(
+                """
+                INSERT INTO end_users (
+                    machine_id,
+                    company_name,
+                    country,
+                    contact_person,
+                    phone,
+                    email,
+                    address
                 )
-            else:
-                cursor.execute(
-                    "INSERT INTO end_users (machine_id, company_name, country, contact_person, phone, email, address) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (machine_id, machine_data.end_user.company_name, machine_data.end_user.country,
-                     machine_data.end_user.contact_person, machine_data.end_user.phone,
-                     machine_data.end_user.email, machine_data.end_user.address)
-                )
-        
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(machine_id) DO UPDATE SET
+                    company_name   = excluded.company_name,
+                    country        = excluded.country,
+                    contact_person = excluded.contact_person,
+                    phone          = excluded.phone,
+                    email          = excluded.email,
+                    address        = excluded.address
+                """
+                ,
+                (
+                    machine_id,
+                    machine_data.end_user.company_name,
+                    machine_data.end_user.country,
+                    machine_data.end_user.contact_person,
+                    machine_data.end_user.phone,
+                    machine_data.end_user.email,
+                    machine_data.end_user.address,
+                ),
+            )
+
         if machine_data.service_base:
-            cursor.execute("SELECT id FROM service_bases WHERE machine_id = ?", (machine_id,))
-            if cursor.fetchone():
-                cursor.execute(
-                    "UPDATE service_bases SET base_name = ?, country = ?, contact_person = ?, phone = ?, email = ? WHERE machine_id = ?",
-                    (machine_data.service_base.base_name, machine_data.service_base.country,
-                     machine_data.service_base.contact_person, machine_data.service_base.phone,
-                     machine_data.service_base.email, machine_id)
+            cursor.execute(
+                """
+                INSERT INTO service_bases (
+                    machine_id,
+                    base_name,
+                    country,
+                    contact_person,
+                    phone,
+                    email
                 )
-            else:
-                cursor.execute(
-                    "INSERT INTO service_bases (machine_id, base_name, country, contact_person, phone, email) VALUES (?, ?, ?, ?, ?, ?)",
-                    (machine_id, machine_data.service_base.base_name, machine_data.service_base.country,
-                     machine_data.service_base.contact_person, machine_data.service_base.phone,
-                     machine_data.service_base.email)
-                )
-        
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT(machine_id) DO UPDATE SET
+                    base_name      = excluded.base_name,
+                    country        = excluded.country,
+                    contact_person = excluded.contact_person,
+                    phone          = excluded.phone,
+                    email          = excluded.email
+                """
+                ,
+                (
+                    machine_id,
+                    machine_data.service_base.base_name,
+                    machine_data.service_base.country,
+                    machine_data.service_base.contact_person,
+                    machine_data.service_base.phone,
+                    machine_data.service_base.email,
+                ),
+            )
         conn.commit()
         return {"id": machine_id, "message": "Machine updated successfully"}
     
