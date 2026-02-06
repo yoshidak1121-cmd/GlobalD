@@ -260,8 +260,13 @@ def seed_data():
                  machine_data["service_base"]["email"])
             )
     
-    conn.commit()
-    conn.close()
+    try:
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
 
 # Pydantic models for validation
 class MachineBase(BaseModel):
