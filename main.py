@@ -620,12 +620,13 @@ async def create_machine(machine_data: MachineCreate):
             )
         
         conn.commit()
-        conn.close()
         return {"id": machine_id, "message": "Machine created successfully"}
     
     except sqlite3.IntegrityError as e:
-        conn.close()
         raise HTTPException(status_code=400, detail=f"Database error: {str(e)}")
+    
+    finally:
+        conn.close()
 
 @app.put("/api/machines/{machine_id}")
 async def update_machine(machine_id: int, machine_data: MachineCreate):
