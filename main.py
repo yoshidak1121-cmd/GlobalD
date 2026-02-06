@@ -773,13 +773,13 @@ async def update_machine(machine_id: int, machine_data: MachineCreate):
                 )
         
         conn.commit()
-        conn.close()
         return {"id": machine_id, "message": "Machine updated successfully"}
     
     except sqlite3.IntegrityError as e:
-        conn.close()
+        conn.rollback()
         raise HTTPException(status_code=400, detail=f"Database error: {str(e)}")
-
+    finally:
+        conn.close()
 # Static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
