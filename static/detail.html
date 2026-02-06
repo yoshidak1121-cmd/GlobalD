@@ -17,19 +17,19 @@
             <!-- Machine header will be loaded here -->
         </div>
 
-        <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('machine')">Machine</button>
-            <button class="tab-button" onclick="switchTab('nc')">NC</button>
-            <button class="tab-button" onclick="switchTab('contract')">Contract</button>
-            <button class="tab-button" onclick="switchTab('sales')">Sales</button>
-            <button class="tab-button" onclick="switchTab('dealer')">Dealer</button>
-            <button class="tab-button" onclick="switchTab('ship')">Ship</button>
-            <button class="tab-button" onclick="switchTab('install')">Install</button>
-            <button class="tab-button" onclick="switchTab('enduser')">End User</button>
-            <button class="tab-button" onclick="switchTab('service')">Service Base</button>
+        <div class="tabs" role="tablist" aria-label="Machine detail sections">
+            <button id="tab-machine" class="tab-button active" type="button" role="tab" aria-selected="true" aria-controls="tabContent" onclick="switchTab('machine')">Machine</button>
+            <button id="tab-nc" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tabContent" onclick="switchTab('nc')">NC</button>
+            <button id="tab-contract" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tabContent" onclick="switchTab('contract')">Contract</button>
+            <button id="tab-sales" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tabContent" onclick="switchTab('sales')">Sales</button>
+            <button id="tab-dealer" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tabContent" onclick="switchTab('dealer')">Dealer</button>
+            <button id="tab-ship" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tabContent" onclick="switchTab('ship')">Ship</button>
+            <button id="tab-install" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tabContent" onclick="switchTab('install')">Install</button>
+            <button id="tab-enduser" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tabContent" onclick="switchTab('enduser')">End User</button>
+            <button id="tab-service" class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="tabContent" onclick="switchTab('service')">Service Base</button>
         </div>
 
-        <div id="tabContent" class="tab-content">
+        <div id="tabContent" class="tab-content" role="tabpanel" aria-labelledby="tab-machine">
             <!-- Tab content will be loaded here -->
         </div>
     </div>
