@@ -79,7 +79,6 @@ function switchTab(tabName) {
     });
     
     // Display content
-    const contentDiv = document.getElementById('tabContent');
     
     switch(tabName) {
         case 'machine':
