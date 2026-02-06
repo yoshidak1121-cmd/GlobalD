@@ -38,9 +38,14 @@
     <script>
         // Load machine details on page load
         window.addEventListener('DOMContentLoaded', function() {
-            const pathParts = window.location.pathname.split('/');
-            const machineId = pathParts[pathParts.length - 1];
-            loadMachineDetail(machineId);
+            const pathParts = window.location.pathname.split('/').filter(part => part !== '');
+            const rawMachineId = pathParts[pathParts.length - 1];
+            const machineIdNumber = Number.parseInt(rawMachineId, 10);
+            if (Number.isInteger(machineIdNumber) && machineIdNumber > 0 && String(machineIdNumber) === rawMachineId) {
+                loadMachineDetail(rawMachineId);
+            } else {
+                console.error('Invalid machine ID in URL path:', rawMachineId);
+            }
         });
     </script>
 </body>
