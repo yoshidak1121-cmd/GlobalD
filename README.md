@@ -1,120 +1,60 @@
 # GlobalD
 
-A FastAPI application for searching and managing machine-centric data.
+FastAPIアプリケーションを使用して、機械中心のデータを検索および管理するツール
 
-## Features
+## 機能
 
-- Free-text search across machine data
-- SQLite database backend
-- RESTful API with FastAPI
-- Input sanitization for security
+- 機械データに対するフリーテキスト検索
+- SQLiteデータベースバックエンド
+- FastAPIによるRESTful API
+- セキュリティのための入力サニタイズ機能
 
-## Installation
+## インストール手順
 
-1. Install dependencies:
+1. 依存ライブラリをインストール:
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Populate database with sample data:
+2. サンプルデータでデータベースを初期化:
 ```bash
 python populate_db.py
 ```
 
-3. Run the application:
+3. アプリを実行:
 ```bash
 uvicorn main:app --reload
 ```
 
-The API will be available at `http://localhost:8000`
+APIは `http://localhost:8000` で利用可能です。
 
-## API Endpoints
+## API エンドポイント一覧
 
-### Search Machines
-**GET** `/api/search?q=<query>`
+### 機械を検索
+**GET** `/api/search?q=<クエリ>`
 
-Search across machine fields including:
-- Machine Model
-- Machine Serial
-- Maker
-- NC Model
-- Contract Number
-- End User
-- Install Country
-- Service Base
+以下の機械フィールドに検索を実行します：
+- 機械モデル (Machine Model)
+- 機械シリアル番号 (Machine Serial)
+- 製造元 (Maker)
+- NCモデル (NC Model)
+- 契約番号 (Contract Number)
+- エンドユーザ (End User)
+- 設置国 (Install Country)
+- サービス拠点 (Service Base)
 
-#### Example Requests
-
-Search by maker:
+#### リクエスト例
+製造元で検索:
 ```bash
 curl "http://localhost:8000/api/search?q=Makino"
 ```
 
-Search by country:
+設置国で検索:
 ```bash
 curl "http://localhost:8000/api/search?q=Japan"
 ```
 
-Search by serial number:
+シリアル番号で検索:
 ```bash
 curl "http://localhost:8000/api/search?q=SN-2023-001"
 ```
-
-Search by end user:
-```bash
-curl "http://localhost:8000/api/search?q=Toyota"
-```
-
-Search by contract number:
-```bash
-curl "http://localhost:8000/api/search?q=CT-2023"
-```
-
-#### Example Response
-```json
-[
-  {
-    "id": 1,
-    "machine_model": "CNC-1000X",
-    "machine_serial": "SN-2023-001",
-    "maker": "Makino",
-    "nc_model": "FANUC 31i-B5",
-    "contract_number": "CT-2023-0045",
-    "end_user": "Toyota Manufacturing",
-    "install_country": "Japan",
-    "service_base": "Tokyo Service Center"
-  }
-]
-```
-
-### Root Endpoint
-**GET** `/`
-
-Returns API information and available endpoints.
-
-```bash
-curl "http://localhost:8000/"
-```
-
-### Health Check
-**GET** `/health`
-
-Health check endpoint.
-
-```bash
-curl "http://localhost:8000/health"
-```
-
-## Interactive API Documentation
-
-FastAPI provides automatic interactive API documentation:
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
-
-## Security
-
-The search endpoint includes:
-- Input sanitization to remove potentially dangerous characters
-- Query length limitation (max 100 characters)
-- SQL injection protection via SQLAlchemy parameterized queries
-- LIKE-based search with escaped wildcards
